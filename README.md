@@ -1,88 +1,87 @@
-# Project Gaia
+# Hydejack
 
+Hydejack is a pretentious two-column [Jekyll](http://jekyllrb.com) theme, stolen by [`@qwtel`](https://twitter.com/qwtel) from [Hyde](http://hyde.getpoole.com). You could say it was.. [hydejacked](http://media3.giphy.com/media/makedRIckZBW8/giphy.gif).
 
-## Updated History
+## Features
+Unlike Hyde, it's very opinionated about how you are going to use it.
 
-- Mar 1st, 2017
-Change another toc plugin
+Features include:
 
-- Feb 28th, 2017
-Rebuild to include **Bootstrap 4-Alpha** and **JQuery 3**
+* Touch-enabled sidebar / drawer for mobile, including fallback when JS is disabled.
+* Github Pages compatible tag support based on [this post][tag].
+* Customizable link color and sidebar image, per-site, per-tag and per-post.
+* Optional author section at the bottom of each post.
+* Optional comment section powered by Disqus.
+* Layout for posts grouped by year
+* Wide array of social media icons on sidebar.
+* Math blocks via [KaTeX](https://khan.github.io/KaTeX/).
 
-## Desc
+## Download
+Hydejack is developed on and hosted with GitHub. Head to the [GitHub repository](https://github.com/qwtel/hydejack) for downloads, bug reports, and feature requests.
 
-This is a personal Jekyll blog theme.
+## Sidebar
+I love the original Hyde theme, but unfortunately the layout isn't as great on small screens.
+Since the sidebar moves to the top, the user has to scroll down just to read the title of a blog post.
 
-The theme name is 'Project Gaia', cuz I have another under building project named 'Project Uranus' o(*￣▽￣*)o 
+By using a drawer component I was able to retain the original two column layout. It's possible to move the drawer via touch input (with the help of a little JavaScript).
 
-![](    demo/1.jpg  )
-![](    demo/2.jpg  )
-![](    demo/3.jpg  )
-![](    demo/4.jpg  )
+Since the background image contributes to the feel of the page I'm letting it peek over the edge a bit. This also provides a hint to the user that an interaction is possible.
 
+## Manual
 
-## Demo
+### Configuration
+You can configure important aspects of the theme via [`_config.yml`](https://github.com/qwtel/hydejack/blob/master/_config.yml). This includes:
 
-See demo page here: [    Demo Page   ](https://szhielelp.github.io/JekyllTheme-ProjectGaia/)
+* the blog description in the sidebar
+* the (optional) author description and photo
+* default image and link color of the blog
+* the github and twitter usernames
 
-See extended blog here: [    Blog Page   ](http://szhshp.org/)
+### How to Change the Image and Color of a Post
+In the manifest of a blog post, simply add an url as `image` and a CSS color as `color`:
 
-See chinese guide post here: [   中文指导    ](http://szhshp.org/tech/2017/01/09/projectgaia.html)
-
-## Plugins
-
-### SyntaxHighlighter
-
-Realized with this repo: [    syntaxhighlighter/syntaxhighlighter](https://github.com/syntaxhighlighter/syntaxhighlighter)
-
-Usage(include necessary CSS and JS and run **SyntaxHighlighter.all()**):
-
-<pre class="brush: html">
-      SyntaxHighlighter.all();
-</pre>
-
-Here is code snippet example:
-
-![](    demo/X3.png )
-
-### Table of Content
-
-Realized with this repo: [    jgallen23/toc  ](https://github.com/jgallen23/toc)
-
-![](   demo/X2.png   )
-
-Auto-run when page loaded.
-
-### md-post-header-collapse
-
-Realized with this repo: [    szhielelp/md-post-header-collapse  ](https://github.com/szhielelp/md-post-header-collapse)
-
-Run **$.headerCollapseRobot()** after post loaded.
-
-<pre class="brush: js">
-    /*header collapsible*/
-    $.headerCollapseRobot(
-      arr_Id_CollapseEnds =  new Array("end"),                       
-      arr_Collapsible_Tag = new Array("H1","H2","H3"),                       
-      arr_ExcludeElemPrefix_InCollapsible  = new Array("comment-"),      
-      arr_ExcludeElemPrefix_InCollapsing = new Array("sidebar-toc-Ik4D-")
-    )
-</pre>
-
-![](   demo/X1.png   )
-
-You can try clicking on the icons near titles.
-
-### Stickie Post
-
-Just put a attribute in header of the specific post:
-
- <pre class="brush: html; highlight: [5]">
+~~~yml
 layout: post
-title: blablablalala
-category : Comic
-tags : [Comic, 10101]
-stickie: true
-</pre>
+title: Introducing Hydejack
+image: http://qwtel.com/hydejack/public/img/hyde.jpg
+color: '#949667'
+~~~
 
-Then current post will show ahead of other posts.
+### How to Add a New Tag
+Tags are possible, but they are not meant to be used #instagram #style: #food #goodfood #happy #happylife #didimentionfood #yougetthepoint. Each tag requires some setup work. I tend to think of it as categories that can be combined.
+
+1.  Add an entry to `_data/tags.yml`, where the key represents a slug and provide at least a `name` value and optionally `image`, `color` and `description`.
+
+    Example `/_data/tags.yml`:
+
+    ~~~yml
+    mytag:
+      name: My Tag
+    ~~~
+
+2.  Make a new file in the `tag` folder, using the same name you've used as the key / slug and change the `tag` and `permalink` entries.
+
+    Example `/tag/mytag.md`:
+
+    ~~~yml
+    layout: blog-by-tag
+    tag: mytag
+    permalink: /tag/mytag/
+    ~~~
+
+3.  Tag your blog posts using the `tags` key (color and image will only depend on the first tag).
+
+    ~~~yml
+    layout: post
+    title: Introducing My New Tag
+    tags: [mytag, othertag]
+    ~~~
+
+4. (optional) Add the tag to the sidebar, by adding it to `sidebar_tags` in `_config.yml`.
+   They will appear in the listed order.
+
+   ~~~yml
+   sidebar_tags: [mytag, othertag]
+   ~~~
+
+[tag]: http://www.minddust.com/post/tags-and-categories-on-github-pages/
